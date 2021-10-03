@@ -12,12 +12,12 @@ import {
     Optional,
 } from 'sequelize';
 
-import Cart from '../models/cart';
+import {Cart} from '../models/cart';
 
-const sequelize = new Sequelize('shop', 'root', 'password', {
+/* const sequelize = new Sequelize('shop', 'root', 'password', {
     host: 'localhost',
     dialect: 'postgres'
-});
+}); */
 
 // These are all the attributes in the User model
 interface UserAttributes {
