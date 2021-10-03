@@ -15,3 +15,6 @@ export const deleteAccount = async (req: Request, res: Response, next: NextFunct
     // pass
 }
 
+export const changeAccountType = async (req: Request, res: Response, next: NextFunction) => {
+    // pass
+}
