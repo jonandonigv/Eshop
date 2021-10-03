@@ -1,5 +1,7 @@
+import { error } from 'console';
 import express from 'express';
 import {Request, Response, NextFunction} from 'express';
+import { copyFileSync } from 'fs';
 import { Sequelize } from 'sequelize';
 
 // My imports
@@ -33,22 +35,15 @@ app.use((error: Error, req:Request, res:Response, next:NextFunction) => {
 // Routes
 app.use('/auth', authRoutes);
 
-// db conection
-const sequelize = new Sequelize('database', 'username', 'password', {
-    host: 'localhost',
-    dialect: 'postgres',
-});
-
-try {
-    sequelize.authenticate();
-    console.log('Connection has been established succesfully!');
-    app.listen(port, () => {
-        console.log('The server is running in port 3000');
-    });
-} catch (error) {
-    console.log('Unable to connect to databas: ', error);
-};
-
 app.listen(port, () => {
     console.log('The server is running in port 3000');
+});
+
+// db connection
+const sequelize = new Sequelize('postgres://root:78948394C@localhost:5432/eshop');
+// db connection testing
+sequelize.authenticate().then(() => {
+    console.log('Connection has been established successfully.')
+}).catch((error) => {
+    console.error('Unable to connect to the database:', error);
 });
