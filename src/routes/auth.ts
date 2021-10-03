@@ -10,7 +10,7 @@ const router = Router();
 
 router.post('/signin', [
     body('email').isEmail().withMessage('Please enter a valid Email').custom((value, {req}) => {
-        return User.findOne({email:value}).then(userDoc => {
+        return User.findOne({email:value}).then((userDoc: any) => {
             if (userDoc) {
                 return Promise.reject('E-mail already exist!')
             }
