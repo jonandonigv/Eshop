@@ -45,6 +45,10 @@ export class User extends Model<UserAttributes, UserCreationAttributes>
         // we have to declare them here purely virtually
         // these will not exist until `Model.init` was called.
         public getCart!: HasManyGetAssociationsMixin<Cart>; // Note the null assertions!
+        public addCart!: HasManyAddAssociationMixin<Cart, number>;
+        public hasCart!: HasManyHasAssociationMixin<Cart, number>;
+        public countCarts!: HasManyCountAssociationsMixin;
+        public createCart!: HasManyCreateAssociationMixin<Cart>;
 
         // You can also pre-declare possible inclusions, these will only be populated if you
         //actively include a relation
