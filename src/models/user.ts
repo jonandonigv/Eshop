@@ -14,10 +14,10 @@ import {
 
 import {Cart} from '../models/cart';
 
-/* const sequelize = new Sequelize('shop', 'root', 'password', {
+const sequelize = new Sequelize('shop', 'root', 'password', {
     host: 'localhost',
     dialect: 'postgres'
-}); */
+});
 
 // These are all the attributes in the User model
 interface UserAttributes {
@@ -58,3 +58,29 @@ export class User extends Model<UserAttributes, UserCreationAttributes>
             cart: Association<User, Cart>;
         };
     }
+
+    User.init(
+        {
+          id: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            autoIncrement: true,
+            primaryKey: true,
+          },
+          name: {
+            type: new DataTypes.STRING(128),
+            allowNull: false,
+          },
+          email: {
+              type: new DataTypes.STRING(128),
+              allowNull: false,
+          },
+          password: {
+            type: new DataTypes.STRING(16),
+            allowNull: false
+          }
+        },
+        {
+          tableName: "users",
+          sequelize, // passing the `sequelize` instance is required
+        }
+      );
