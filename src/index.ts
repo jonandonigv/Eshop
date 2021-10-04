@@ -6,6 +6,9 @@ import { Sequelize } from 'sequelize';
 
 // My imports
 import {router as authRoutes} from './routes/auth';
+import { User } from './models/user';
+// import {} from './models/cart';
+// import {} from './models/product';
 
 const app = express();
 const port = 3000;
@@ -47,3 +50,14 @@ sequelize.authenticate().then(() => {
 }).catch((error) => {
     console.error('Unable to connect to the database:', error);
 });
+
+// db associations which actually populates out pre-declared `association` static and other methods.
+/* User.hasMany(Cart, {
+    sourceKey: "id",
+    foreignKey: "ownerId",
+    as: "cart", // this determines the name in `associations`!
+}); 
+
+Cart.belongsTo(User, { targetKey: "id" });
+User.hasMany(Cart, { sourceKey: "id" });
+*/
