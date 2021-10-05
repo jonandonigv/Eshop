@@ -63,3 +63,5 @@ User.hasMany(Cart, { sourceKey: "id" });
 */
 
 /* TODO: Continue adding configuration and initialize all the models and the routes */
+
+export default app;
