@@ -61,3 +61,5 @@ sequelize.authenticate().then(() => {
 Cart.belongsTo(User, { targetKey: "id" });
 User.hasMany(Cart, { sourceKey: "id" });
 */
+
+/* TODO: Continue adding configuration and initialize all the models and the routes */
