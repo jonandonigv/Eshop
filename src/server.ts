@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 /* 
-    * Start Express server.
+    * Starts Express server.
 */
 const server = app.listen(app.get("port"), () => {
     console.log(
