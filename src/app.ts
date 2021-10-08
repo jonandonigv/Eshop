@@ -1,67 +1,90 @@
-import { error } from 'console';
-import express from 'express';
-import {Request, Response, NextFunction} from 'express';
-import { copyFileSync } from 'fs';
-import { Sequelize } from 'sequelize';
+import express, { Request, Response, NextFunction } from "express";
+import compression from 'compression';
+import session from 'express-session';
+import lusca from 'lusca';
+import MongoStore from 'connect-mongo';
+import flash from 'express-flash';
+import path from "path";
+import mongoose from 'mongoose';
+import passport from 'passport';
+import bluebird from 'bluebird';
+import {MONGODB_URI, SESSION_SECRET} from './utils/secrets';
 
-// My imports
-import {router as authRoutes} from './routes/auth';
-import { User } from './models/user';
-// import {} from './models/cart';
-// import {} from './models/product';
 
+// Controllers (route handlers)
+import * as apiController from './controllers/api';
+import * as cartController from './controllers/cart';
+import * as productController from './controllers/product';
+import * as userController from './controllers/product';
+import * as contactController from './controllers/contact';
+
+// API keys and Passport configuration
+import * as passportConfig from './config/default';
+import { resolveSoa } from "dns";
+
+// Create Express server
 const app = express();
-const port = 3000;
 
-// parser middleware
+// Connect MongoDB
+const mongoUrl = MONGODB_URI;
+mongoose.Promise = bluebird;
+
+mongoose.connect(mongoUrl, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }).then(
+    () => {/* ready to use. the `mongoose.connect()` promise resolves to undefined */}
+).catch(err => {
+    console.log(`MongoDB connection error. Please make sure MongoDB is running. ${err}`);
+    // process.exit();
+});
+
+// Express configuration
+app.set('port', process.env.PORT || 3000);
+app.use(compression());
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-
-app.use((req, res, next) => {
-    res.setHeader('Access-Control_Allow-Origin', '*');
-    res.setHeader(
-        'Access-Control-Allow-Methods',
-        'OPTIONS, GET, POST, PUT, PATCH, DELETE'
-    );
-    res.setHeader('Access-Control_Allow-Headers', 'Content-Type: application/json, Authorization');
+app.use(express.urlencoded({ extended: true }));
+app.use(session({
+    resave: true,
+    saveUninitialize: true,
+    secret: SESSION_SECRET,
+    store: new MongoStore({
+        mongoUrl,
+        mongoOptions: {
+            autoReconnect: true
+        }
+    })
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+app.use(lusca.xframe("SAMEORIGIN"));
+app.use(lusca.xssProtection(true));
+app.use((req: Request, res: Response, next: NextFunction) => {
+    res.locals.user = req.user;
     next();
 });
+/* app.use((req: Request, res: Response, next: NextFunction) => {
 
-app.use((error: Error, req:Request, res:Response, next:NextFunction) => {
-    console.log(error);
-    /* const status = error.statusCode || 500;
-    const message = error.message;
-    const data = error.data;
-    res.status(status).json({message: message, data:data}) */
-})
+}); */
 
-// Routes
-app.use('/auth', authRoutes);
 
-app.listen(port, () => {
-    console.log('The server is running in port 3000');
-});
-
-// db connection
-const sequelize = new Sequelize('postgres://root:78948394C@localhost:5432/eshop');
-// db connection testing
-sequelize.authenticate().then(() => {
-    console.log('Connection has been established successfully.')
-}).catch((error) => {
-    console.error('Unable to connect to the database:', error);
-});
-
-// db associations which actually populates out pre-declared `association` static and other methods.
-/* User.hasMany(Cart, {
-    sourceKey: "id",
-    foreignKey: "ownerId",
-    as: "cart", // this determines the name in `associations`!
-}); 
-
-Cart.belongsTo(User, { targetKey: "id" });
-User.hasMany(Cart, { sourceKey: "id" });
+/* 
+    * Primary app routes.
 */
+app.post("/login", userController.postLogin);
+app.post("/contact", contactController.postContact);
+app.get("/account", passportConfig.isAuthenticated, userController.getAccount);
 
-/* TODO: Continue adding configuration and initialize all the models and the routes */
+/* 
+    * API example routes.
+*/
+app.get("/api", apiController.getApi);
+app.get("/api/facebook", passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFacebook);
+
+/* 
+    * OAuth authentication routes. (Sign in)
+*/
+app.get("/auth/facebook", passport.authenticate("facebook", { scope: ["email", "public_profile"] }));
+app.get("/auth/facebook/callback", passport.authenticate("facebook", { failureRedirect: "/login" }), (req: Request, res: Response) => {
+    res.redirect(req.session.returnTo || "/");
+});
 
 export default app;
