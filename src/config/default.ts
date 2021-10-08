@@ -53,6 +53,18 @@ passport.use(new LocalStrategy({usernameField: "email"}, (email, password, done)
     *           - Else create a new account.
 */
 
+/* 
+    * Sign in with Facebook.
+*/
+
+
+/* 
+    * Sign in with Google.
+*/
+
+/* 
+    * Login required middleware.
+*/
 export const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
     if (req.isAuthenticated()) {
         return next();
@@ -60,6 +72,9 @@ export const isAuthenticated = (req: Request, res: Response, next: NextFunction)
     res.redirect("/login");
 };
 
+/* 
+    * Authorization required middleware.
+*/
 export const isAuthorized = (req: Request, res: Response, next: NextFunction) => {
     const provider = req.path.split("/").slice(-1)[0];
 
