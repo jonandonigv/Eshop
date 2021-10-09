@@ -1,86 +1,54 @@
-import {
-    Sequelize,
-    Model,
-    ModelDefined,
-    DataTypes,
-    HasManyGetAssociationsMixin,
-    HasManyAddAssociationMixin,
-    HasManyHasAssociationMixin,
-    Association,
-    HasManyCountAssociationsMixin,
-    HasManyCreateAssociationMixin,
-    Optional,
-} from 'sequelize';
+import bcrypt from 'bcrypt-nodejs';
+import crypto from 'crypto';
+import mongoose from 'mongoose';
 
-import {Cart} from '../models/cart';
+export type UserDocument = mongoose.Document & {
+  email: string;
+  password: string;
+  passwordResetToken: string;
+  passwordResetExpires: Date;
 
-const sequelize = new Sequelize('shop', 'root', 'password', {
-    host: 'localhost',
-    dialect: 'postgres'
-});
+  facebook: string;
+  tokens: AuthToken[];
 
-// These are all the attributes in the User model
-interface UserAttributes {
-    id: number,
-    name: string,
-    email: string,
-    password: string,
+  profile: {
+    name: string;
+    gender: string;
+    location: string;
+    website: string;
+    pricture: string;
+  };
+
+  comparePassword: comparePasswordFunction;
+  gravatar: (size: number) => string;
+};
+
+type comparePasswordFunction = (candidatePassword: string, cb: (err: any, isMatch: any) => void) => void;
+
+export interface AuthToken {
+  accessToken: string;
+  kind: string;
 }
 
-// Some attributes are optionl in `User.build` and `User.create` calls.
-interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
+const userSchema = new mongoose.Schema<UserDocument>(
+  {
+    email: { type: String, unique: true },
+    password: String,
+    passwordResetToken: String,
+    passwordResetExpires: Date,
 
-export class User extends Model<UserAttributes, UserCreationAttributes>
-    implements UserAttributes {
-        public id!: number; // Note that the `null assertion` `!` is required in strict mode.
-        public name!: string;
-        public email!: string;
-        public password!: string;
+    facebook: String,
+    twitter: String,
+    google: String,
+    tokens: Array,
 
-        // Timestamps!
-        public readonly createdAt!: Date;
-        public readonly updatedAt!: Date;
-
-        // Since TS cannot determine model association at compile time
-        // we have to declare them here purely virtually
-        // these will not exist until `Model.init` was called.
-        public getCart!: HasManyGetAssociationsMixin<Cart>; // Note the null assertions!
-        public addCart!: HasManyAddAssociationMixin<Cart, number>;
-        public hasCart!: HasManyHasAssociationMixin<Cart, number>;
-        public countCarts!: HasManyCountAssociationsMixin;
-        public createCart!: HasManyCreateAssociationMixin<Cart>;
-
-        // You can also pre-declare possible inclusions, these will only be populated if you
-        //actively include a relation
-        public readonly cart?: Cart[]; // Note this is optional since it's onlu populated when explicitly requested in code.
-
-        public static associations: {
-            cart: Association<User, Cart>;
-        };
+    profile: {
+      name: String,
+      gender: String,
+      location: String,
+      website: String,
+      picture: String
     }
-
-    User.init(
-        {
-          id: {
-            type: DataTypes.INTEGER.UNSIGNED,
-            autoIncrement: true,
-            primaryKey: true,
-          },
-          name: {
-            type: new DataTypes.STRING(128),
-            allowNull: false,
-          },
-          email: {
-              type: new DataTypes.STRING(128),
-              allowNull: false,
-          },
-          password: {
-            type: new DataTypes.STRING(16),
-            allowNull: false
-          }
-        },
-        {
-          tableName: "users",
-          sequelize, // passing the `sequelize` instance is required
-        }
-      );
+  },
+  { timestamps: true },
+);
