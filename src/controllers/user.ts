@@ -1,20 +1,28 @@
-import express, { Response, Request, NextFunction } from 'express';
-import 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import {validationResult} from 'express-validator'
+import async from 'async';
+import crypto from 'crypto';
+import nodemailer form 'nodemailer';
+import passport from 'passport';
+import {User, UserDocument, AuthToken} from '../models/user';
+import { Request, Response, NextFunction } from 'express';
+import { IVerifyOptions } from 'passport-local';
+import { WriteError } from 'mongodb';
+import { body, check, validationResult } from 'express-validator';
+import '../config/passport';
+import { CallbackError, NativeError } from 'mongoose';
 
-export const signIn = async (req: Request, res: Response, next: NextFunction) => {
-    // pass
-}
+/* 
+    * Sign in using email and password.
+    * @route POST /login
+*/
+export const postLogin = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    await check('email', 'Email is not valid').isEmail().run(req);
+    await check('password', 'Password cannot be blank').isLength({min: 1}).run(req);
+    await body('email').normalizeEmail({ gmail_remove_dots: false }).run(req);
 
-export const signUp = async (req: Request, res: Response, next: NextFunction) => {
-    // pass
-}
+    const errors = validationResult(req);
 
-export const deleteAccount = async (req: Request, res: Response, next: NextFunction) => {
-    // pass
-}
-
-export const changeAccountType = async (req: Request, res: Response, next: NextFunction) => {
-    // pass
-}
+    if (!errors.isEmpty()) {
+        req.flash('errors', errors.array());
+        return res.status(400).json(errors);
+    }
+};
