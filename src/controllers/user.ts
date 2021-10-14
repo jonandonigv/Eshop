@@ -23,6 +23,6 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
 
     if (!errors.isEmpty()) {
         req.flash('errors', errors.array());
-        return res.status(400).json(errors);
+        res.status(400).json(errors).send({ message: 'Error' });
     }
 };
