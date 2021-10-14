@@ -1,6 +1,6 @@
 import async from 'async';
 import crypto from 'crypto';
-import nodemailer form 'nodemailer';
+import nodemailer from 'nodemailer';
 import passport from 'passport';
 import {User, UserDocument, AuthToken} from '../models/user';
 import { Request, Response, NextFunction } from 'express';
