@@ -77,3 +77,47 @@ export const postSignup = async (req: Request, res: Response, next: NextFunction
         });
     });
 };
+
+/* 
+    * Get Profile
+    * @route GET /account
+*/
+export const getAccount = (req: Request, res: Response, next: NextFunction) => {
+    // TODO: Should get user data and fetch that data.
+};
+
+/* 
+    * Update profile information
+    * @route POST /account/profile
+*/
+export const postUpdateProfile = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+
+};
+
+/* 
+    * Update current password
+    * @route POST /account/password
+*/
+export const postUpdatePassword = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+
+};
+
+/* 
+    * Delete user account
+    *@route POST /account/delete
+*/
+export const postDeleteAccount = (req: Request, res: Response, next: NextFunction): void => {
+
+};
+
+/* 
+    * Unlink OAuth provider
+    * @route GET /account/unlink/:provider
+*/
+export const getOauthUnlink = (req: Request, res: Response, next: NextFunction): void => {
+
+};
+
+/* 
+    * Reset Password
+*/
