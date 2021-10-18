@@ -120,4 +120,16 @@ export const getOauthUnlink = (req: Request, res: Response, next: NextFunction):
 
 /* 
     * Reset Password
+    * @route POST /reset/:token
 */
+export const postReset = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+
+};
+
+/* 
+    * Create a randon token, then the send user an email with a reset link
+    * @route POST /forgot
+*/
+export const postForgot = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+
+};
