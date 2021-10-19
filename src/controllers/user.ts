@@ -9,6 +9,7 @@ import { WriteError } from 'mongodb';
 import { body, check, validationResult } from 'express-validator';
 import '../config/passport';
 import { CallbackError, NativeError } from 'mongoose';
+import { json } from 'stream/consumers';
 
 /* 
     * Sign in using email and password.
@@ -84,6 +85,14 @@ export const postSignup = async (req: Request, res: Response, next: NextFunction
 */
 export const getAccount = (req: Request, res: Response, next: NextFunction) => {
     // TODO: Should get user data and fetch that data.
+    if (req.isAuthenticated()){
+        User.findOne({_id: req.user}).then((user) => {
+            res.status(200).send(user);    
+        }).catch(err => {
+            console.log(err);
+            res.status(404).send({msg: "User not found"});
+        });
+    }
 };
 
 /* 
