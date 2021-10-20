@@ -15,7 +15,7 @@ import {MONGODB_URI, SESSION_SECRET} from './utils/secrets';
 import * as apiController from './controllers/api';
 import * as cartController from './controllers/cart';
 import * as productController from './controllers/product';
-import * as userController from './controllers/product';
+import * as userController from './controllers/user';
 import * as contactController from './controllers/contact';
 
 // API keys and Passport configuration
