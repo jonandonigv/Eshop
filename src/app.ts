@@ -28,14 +28,14 @@ const app = express();
 // Connect MongoDB
 const mongoUrl = MONGODB_URI;
 
-/* mongoose.connect(mongoUrl, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }).then(
+mongoose.connect('mongodb+srv://admin:aJcmP3DHuV97StHA@database.rx4es.mongodb.net/Eshop').then(
     () => {
         // ready to use. the `mongoose.connect()` promise resolves to undefined
         console.log('Connected');
     }).catch(err => {
     console.log(`MongoDB connection error. Please make sure MongoDB is running. ${err}`);
     // process.exit();
-}); */
+});
 
 // Express configuration
 app.set('port', process.env.PORT || 3000);
