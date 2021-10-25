@@ -27,7 +27,6 @@ const app = express();
 
 // Connect MongoDB
 const mongoUrl = MONGODB_URI;
-mongoose.Promise = bluebird;
 
 /* mongoose.connect(mongoUrl, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }).then(
     () => {
@@ -71,10 +70,10 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 /* 
     * Primary app routes.
 */
-app.post("/login", userController.postLogin);
-/* app.post("/contact", contactController.postContact); */
+/* app.post("/login", userController.postLogin);
+app.post("/contact", contactController.postContact);
 app.get("/account", passportConfig.isAuthenticated, userController.getAccount);
-
+ */
 /* 
     * API example routes.
 */
