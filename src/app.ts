@@ -29,19 +29,21 @@ const app = express();
 const mongoUrl = MONGODB_URI;
 mongoose.Promise = bluebird;
 
-mongoose.connect(mongoUrl, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }).then(
-    () => {/* ready to use. the `mongoose.connect()` promise resolves to undefined */}
-).catch(err => {
+/* mongoose.connect(mongoUrl, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }).then(
+    () => {
+        // ready to use. the `mongoose.connect()` promise resolves to undefined
+        console.log('Connected');
+    }).catch(err => {
     console.log(`MongoDB connection error. Please make sure MongoDB is running. ${err}`);
     // process.exit();
-});
+}); */
 
 // Express configuration
 app.set('port', process.env.PORT || 3000);
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(session({
+/* app.use(session({
     resave: true,
     saveUninitialize: true,
     secret: SESSION_SECRET,
@@ -51,7 +53,7 @@ app.use(session({
             autoReconnect: true
         }
     })
-}));
+})); */
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
@@ -70,7 +72,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     * Primary app routes.
 */
 app.post("/login", userController.postLogin);
-app.post("/contact", contactController.postContact);
+/* app.post("/contact", contactController.postContact); */
 app.get("/account", passportConfig.isAuthenticated, userController.getAccount);
 
 /* 
@@ -82,9 +84,9 @@ app.get("/api/facebook", passportConfig.isAuthenticated, passportConfig.isAuthor
 /* 
     * OAuth authentication routes. (Sign in)
 */
-app.get("/auth/facebook", passport.authenticate("facebook", { scope: ["email", "public_profile"] }));
+/* app.get("/auth/facebook", passport.authenticate("facebook", { scope: ["email", "public_profile"] }));
 app.get("/auth/facebook/callback", passport.authenticate("facebook", { failureRedirect: "/login" }), (req: Request, res: Response) => {
     res.redirect(req.session.returnTo || "/");
-});
+}); */
 
 export default app;
