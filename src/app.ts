@@ -12,11 +12,11 @@ import {MONGODB_URI, SESSION_SECRET} from './utils/secrets';
 
 
 // Controllers (route handlers)
-import * as apiController from './controllers/api';
-import * as cartController from './controllers/cart';
+/* import * as apiController from './controllers/api';
+import * as cartController from './controllers/cart'; */
 import * as productController from './controllers/product';
 import * as userController from './controllers/user';
-import * as contactController from './controllers/contact';
+/* import * as contactController from './controllers/contact'; */
 
 // API keys and Passport configuration
 import * as passportConfig from './config/default';
@@ -76,8 +76,8 @@ app.get("/account", passportConfig.isAuthenticated, userController.getAccount);
 /* 
     * API example routes.
 */
-app.get("/api", apiController.getApi);
-app.get("/api/facebook", passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFacebook);
+/* app.get("/api", apiController.getApi);
+app.get("/api/facebook", passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFacebook); */
 
 /* 
     * OAuth authentication routes. (Sign in)
