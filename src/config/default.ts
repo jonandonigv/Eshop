@@ -69,7 +69,7 @@ export const isAuthenticated = (req: Request, res: Response, next: NextFunction)
     if (req.isAuthenticated()) {
         return next();
     }
-    res.redirect("/login");
+    res.status(200).send({msg: "User is auth."});
 };
 
 /* 
