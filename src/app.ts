@@ -14,14 +14,13 @@ import logger from "./utils/logger";
 
 // Controllers (route handlers)
 /* import * as apiController from './controllers/api';
-import * as cartController from './controllers/cart'; */
+import * as cartController from './controllers/cart';
 import * as productController from './controllers/product';
 import * as userController from './controllers/user';
-/* import * as contactController from './controllers/contact'; */
+import * as contactController from './controllers/contact'; */
 
 // API keys and Passport configuration
-import * as passportConfig from './config/default';
-import { resolveSoa } from "dns";
+/* import * as passportConfig from './config/default'; */
 
 // Create Express server
 const app = express();
@@ -40,9 +39,9 @@ mongoose.connect('mongodb+srv://admin:aJcmP3DHuV97StHA@database.rx4es.mongodb.ne
 
 // Express configuration
 app.set('port', process.env.PORT || 3000);
-app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// app.use(compression());
 /* app.use(session({
     resave: true,
     saveUninitialize: true,
@@ -54,15 +53,15 @@ app.use(express.urlencoded({ extended: true }));
         }
     })
 })); */
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
-app.use(lusca.xframe("SAMEORIGIN"));
-app.use(lusca.xssProtection(true));
-app.use((req: Request, res: Response, next: NextFunction) => {
+// app.use(passport.initialize());
+// app.use(passport.session());
+// app.use(flash());
+// app.use(lusca.xframe("SAMEORIGIN"));
+// app.use(lusca.xssProtection(true));
+/* app.use((req: Request, res: Response, next: NextFunction) => {
     res.locals.user = req.user;
     next();
-});
+}); */
 /* app.use((req: Request, res: Response, next: NextFunction) => {
 
 }); */
