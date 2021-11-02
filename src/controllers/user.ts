@@ -54,7 +54,6 @@ export const postSignup = async (req: Request, res: Response, next: NextFunction
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        req.flash("errors", errors.array());
         res.status(400).send({errors: errors});
     }
 
@@ -66,7 +65,6 @@ export const postSignup = async (req: Request, res: Response, next: NextFunction
     User.findOne({ email: req.body.email }, (err: NativeError, existingUser: UserDocument) => {
         if (err) { return next(err); }
         if (existingUser) {
-            req.flash("errors", {msg: "Account with that email address already exists"});
             res.status(401).send({msg: "Account with that email address already exists"});
         }
         user.save((err) => {
