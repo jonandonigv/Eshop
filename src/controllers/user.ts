@@ -16,6 +16,7 @@ import { json } from 'stream/consumers';
     * @route POST /login
 */
 export const postLogin = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    // TODO: Logs in the user into the app and returns a 200 status code.
 };
 
 /* 
@@ -23,6 +24,7 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
     * @route POST /signup
 */
 export const postSignup = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    // TODO: Create a new user. Can't exist two user with the same email or username.
 };
 
 /* 
@@ -30,7 +32,7 @@ export const postSignup = async (req: Request, res: Response, next: NextFunction
     * @route GET /account
 */
 export const getAccount = (req: Request, res: Response, next: NextFunction) => {
-    // TODO: Should get user data and fetch that data.
+    // TODO: Get's the user account data.
     if (req.isAuthenticated()){
         User.findOne({_id: req.user}).then((user) => {
             res.status(200).send(user);    
@@ -46,7 +48,7 @@ export const getAccount = (req: Request, res: Response, next: NextFunction) => {
     * @route POST /account/profile
 */
 export const postUpdateProfile = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-
+    // TODO: Updates the user profile
 };
 
 /* 
@@ -54,7 +56,7 @@ export const postUpdateProfile = async (req: Request, res: Response, next: NextF
     * @route POST /account/password
 */
 export const postUpdatePassword = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-
+    // TODO: Update the User password and and the user password token.
 };
 
 /* 
@@ -62,7 +64,7 @@ export const postUpdatePassword = async (req: Request, res: Response, next: Next
     *@route POST /account/delete
 */
 export const postDeleteAccount = (req: Request, res: Response, next: NextFunction): void => {
-
+    // TODO: Deletes the user account. User must be authenticated to be able to delete the account.
 };
 
 /* 
@@ -78,7 +80,7 @@ export const getOauthUnlink = (req: Request, res: Response, next: NextFunction):
     * @route POST /reset/:token
 */
 export const postReset = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-
+    // TODO: Reset Password.
 };
 
 /* 
@@ -86,5 +88,5 @@ export const postReset = async (req: Request, res: Response, next: NextFunction)
     * @route POST /forgot
 */
 export const postForgot = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-
+    // TODO: Send an email with a reset token to change the password.
 };
