@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import mongoose from 'mongoose';
 
@@ -58,7 +58,7 @@ const userSchema = new mongoose.Schema<UserDocument>(
 /* 
   * Password hash middleware
 */
-userSchema.pre("save", function save(next) {
+/* userSchema.pre("save", function save(next) {
   const user = this as UserDocument;
   if (!user.isModified("password")) {return next(); }
   bcrypt.genSalt(10, (err, salt) => {
@@ -69,9 +69,9 @@ userSchema.pre("save", function save(next) {
       next();
     });
   });
-});
+}); */
 
-const comparePassword: comparePasswordFunction = function (candidatePassword, cb) {
+const comparePassword: comparePasswordFunction = function (this: any, candidatePassword, cb) {
   bcrypt.compare(candidatePassword, this.password, (err: mongoose.Error, isMatch: boolean) => {
     cb(err, isMatch);
   });
@@ -82,12 +82,12 @@ userSchema.methods.comparePassword = comparePassword;
 /* 
   * Helper method for getting user's gravatar
 */
-userSchema.methods.gravatar = function (size: number = 200) {
+/* userSchema.methods.gravatar = function (size: number = 200) {
   if (!this.email) {
     return `https://gravatar.com/avatar/?s=${size}&d=retro`;
   }
   const md5 = crypto.createHash("md5").update(this.email).digest("hex");
   return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
-};
+}; */
 
 export const User = mongoose.model<UserDocument>("User", userSchema);
