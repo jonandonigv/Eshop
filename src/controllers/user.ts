@@ -7,7 +7,6 @@ import { Request, Response, NextFunction } from 'express';
 import { IVerifyOptions } from 'passport-local';
 import { WriteError } from 'mongodb';
 import { body, check, validationResult } from 'express-validator';
-import '../config/passport';
 import { CallbackError, NativeError } from 'mongoose';
 import { json } from 'stream/consumers';
 
@@ -25,6 +24,8 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
 */
 export const postSignup = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     // TODO: Create a new user. Can't exist two user with the same email or username.
+    const body = req.body;
+    console.log(body);
 };
 
 /* 
