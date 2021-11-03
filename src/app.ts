@@ -29,6 +29,9 @@ app.use(express.urlencoded({ extended: true }));
 /* 
     * Primary app routes.
 */
+app.post('/', (req, res, next) => {
+    console.log(req.body);
+});
 app.post("signup", userController.postSignup);
 
 export default app;
