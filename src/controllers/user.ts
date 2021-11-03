@@ -6,9 +6,7 @@ import {User, UserDocument, AuthToken} from '../models/user';
 import { Request, Response, NextFunction } from 'express';
 import { IVerifyOptions } from 'passport-local';
 import { WriteError } from 'mongodb';
-import { body, check, validationResult } from 'express-validator';
 import { CallbackError, NativeError } from 'mongoose';
-import { json } from 'stream/consumers';
 
 /* 
     * Sign in using email and password.
