@@ -32,6 +32,6 @@ app.use(express.urlencoded({ extended: true }));
 app.post('/', (req, res, next) => {
     console.log(req.body);
 });
-app.post("signup", userController.postSignup);
+app.post("/signup", userController.postSignup);
 
 export default app;
