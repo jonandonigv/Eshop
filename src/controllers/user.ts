@@ -23,7 +23,18 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
 export const postSignup = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     // TODO: Create a new user. Can't exist two user with the same email or username.
     const body = req.body;
-    console.log(body);
+    const name = req.body.name;
+    const email = req.body.email;
+    const password = req.body.password;
+    const profile = req.body.profile
+    console.log({
+        main: {
+            name,
+            email,
+            password
+        },
+        profile: profile
+    });
 };
 
 /* 
