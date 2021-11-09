@@ -19,9 +19,11 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
     const email = req.body.email;
     const password = req.body.password;
 
-    const user = User.findOne({email: email}).then((user) => {
+    const user = User.findOne({email: email}).then((user) => { // Finds if the user exists in the db.
         if (user) {
+            // TODO: It shoul compare the given password to the password in the db and if they both match the user should log in.
             user.comparePassword(password, (err, isMatch) => {
+                // If the password does not match it returns an error.
                 if (err) return res.status(400).send(err);
                 if (isMatch) return res.status(200).send({msg: "Logged successfully"});
             });
