@@ -7,6 +7,8 @@ import { Request, Response, NextFunction } from 'express';
 import { IVerifyOptions } from 'passport-local';
 import { WriteError } from 'mongodb';
 import { CallbackError, NativeError } from 'mongoose';
+import { error } from 'winston';
+
 
 /* 
     * Sign in using email and password.
@@ -14,6 +16,19 @@ import { CallbackError, NativeError } from 'mongoose';
 */
 export const postLogin = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     // TODO: Logs in the user into the app and returns a 200 status code.
+    const email = req.body.email;
+    const password = req.body.password;
+
+    const user = User.findOne({email: email}).then((user) => {
+        if (user) {
+            user.comparePassword(password, (err, isMatch) => {
+                if (err) return res.status(400).send(err);
+                if (isMatch) return res.status(200).send({msg: "Logged successfully"});
+            });
+        }
+    }).catch((e) => {
+        return res.status(400).send(e);
+    });
 };
 
 /* 
