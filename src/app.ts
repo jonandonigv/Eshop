@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import mongoose from 'mongoose';
 import {MONGODB_URI, SESSION_SECRET} from './utils/secrets';
 import logger from "./utils/logger";
+import session from "express-session";
 
 
 // Controllers (route handlers)
