@@ -8,6 +8,7 @@ import { IVerifyOptions } from 'passport-local';
 import { WriteError } from 'mongodb';
 import { CallbackError, NativeError } from 'mongoose';
 import { error } from 'winston';
+import bcrypt from 'bcryptjs';
 
 
 /* 
@@ -16,20 +17,16 @@ import { error } from 'winston';
 */
 export const postLogin = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     // TODO: Logs in the user into the app and returns a 200 status code.
-    const email = req.body.email;
-    const password = req.body.password;
+    const user = await User.findOne({ email: req.body.email });
 
-    const user = User.findOne({email: email}).then((user) => { // Finds if the user exists in the db.
-        if (user) {
-            // TODO: It shoul compare the given password to the password in the db and if they both match the user should log in.
-            user.comparePassword(password, (err, isMatch) => {
-                // If the password does not match it returns an error.
-                if (err) return res.status(400).send(err);
-                if (isMatch) return res.status(200).send({msg: "Logged successfully"});
-            });
-        }
-    }).catch((e) => {
-        return res.status(400).send(e);
+    if (!user) return res.status(400).json({ error: "User not found" });
+
+    const validPassword = await bcrypt.compare(req.body.password, user.password);
+    if (!validPassword) return res.status(400).json({error: 'invalid password'});
+
+    res.status(200).json({
+        error: null,
+        data: 'Welcome'
     });
 };
 
