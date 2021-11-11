@@ -1,13 +1,7 @@
-import async from 'async';
-import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import passport from 'passport';
 import {User, UserDocument, AuthToken} from '../models/user';
 import { Request, Response, NextFunction } from 'express';
-import { IVerifyOptions } from 'passport-local';
-import { WriteError } from 'mongodb';
-import { CallbackError, NativeError } from 'mongoose';
-import { error } from 'winston';
 import bcrypt from 'bcryptjs';
 
 
