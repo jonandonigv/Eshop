@@ -33,5 +33,6 @@ app.post('/', (req, res, next) => {
     console.log(req.body);
 });
 app.post("/signup", userController.postSignup);
+app.post("/login", userController.postLogin);
 
 export default app;

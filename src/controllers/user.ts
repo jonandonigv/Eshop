@@ -7,6 +7,9 @@ import { Request, Response, NextFunction } from 'express';
 import { IVerifyOptions } from 'passport-local';
 import { WriteError } from 'mongodb';
 import { CallbackError, NativeError } from 'mongoose';
+import { error } from 'winston';
+import bcrypt from 'bcryptjs';
+
 
 /* 
     * Sign in using email and password.
@@ -14,6 +17,17 @@ import { CallbackError, NativeError } from 'mongoose';
 */
 export const postLogin = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     // TODO: Logs in the user into the app and returns a 200 status code.
+    const user = await User.findOne({ email: req.body.email });
+
+    if (!user) return res.status(400).json({ error: "User not found" });
+
+    const validPassword = await bcrypt.compare(req.body.password, user.password);
+    if (!validPassword) return res.status(400).json({error: 'invalid password'});
+
+    res.status(200).json({
+        error: null,
+        data: 'Welcome'
+    });
 };
 
 /* 
