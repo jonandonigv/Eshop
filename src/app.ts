@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import {MONGODB_URI, SESSION_SECRET} from './utils/secrets';
 import logger from "./utils/logger";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 
 
 // Controllers (route handlers)
@@ -25,13 +26,23 @@ mongoose.connect('mongodb+srv://admin:aJcmP3DHuV97StHA@database.rx4es.mongodb.ne
 app.set('port', process.env.PORT || 3000);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(session({
+    secret: 'somethingsecret',
+    resave: true,
+    saveUninitialized: true,
+    store: new MongoStore({
+        db: mongoose.connection.db
+    })
+}));
 
 /* 
     * Primary app routes.
 */
 app.post('/', (req, res, next) => {
-    console.log(req.body);
+    res.json({
+        status: true,
+        message: "API running"
+    });
 });
 app.post("/signup", userController.postSignup);
 app.post("/login", userController.postLogin);
