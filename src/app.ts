@@ -31,7 +31,8 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
     store: new MongoStore({
-        db: mongoose.connection.db
+        mongoUrl: 'mongodb+srv://admin:aJcmP3DHuV97StHA@database.rx4es.mongodb.net/Eshop',
+        collectionName: 'sessions'
     })
 }));
 
