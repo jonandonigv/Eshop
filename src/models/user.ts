@@ -1,5 +1,4 @@
 import bcrypt from 'bcryptjs';
-import crypto from 'crypto';
 import mongoose from 'mongoose';
 
 export type UserDocument = mongoose.Document & {
@@ -8,28 +7,19 @@ export type UserDocument = mongoose.Document & {
   passwordResetToken: string;
   passwordResetExpires: Date;
 
-  facebook: string;
-  twitter: string;
-  google: string;
   tokens: AuthToken[];
 
   profile: {
     name: string;
     gender: string;
     location: string;
-    website: string;
     pricture: string;
   };
-
-  comparePassword: comparePasswordFunction;
-  gravatar: (size: number) => string;
 };
 
-type comparePasswordFunction = (candidatePassword: string, cb: (err: any, isMatch: any) => void) => void;
 
 export interface AuthToken {
   accessToken: string;
-  kind: string;
 }
 
 const userSchema = new mongoose.Schema<UserDocument>(
@@ -38,17 +28,12 @@ const userSchema = new mongoose.Schema<UserDocument>(
     password: String,
     passwordResetToken: String,
     passwordResetExpires: Date,
-
-    facebook: String,
-    twitter: String,
-    google: String,
     tokens: Array,
 
     profile: {
       name: String,
       gender: String,
       location: String,
-      website: String,
       picture: String
     }
   },
@@ -70,24 +55,5 @@ userSchema.pre("save", function save(next) {
     });
   });
 });
-
-const comparePassword: comparePasswordFunction = function (this: any, candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, (err: mongoose.Error, isMatch: boolean) => {
-    cb(err, isMatch);
-  });
-}
-
-userSchema.methods.comparePassword = comparePassword;
-
-/* 
-  * Helper method for getting user's gravatar
-*/
-/* userSchema.methods.gravatar = function (size: number = 200) {
-  if (!this.email) {
-    return `https://gravatar.com/avatar/?s=${size}&d=retro`;
-  }
-  const md5 = crypto.createHash("md5").update(this.email).digest("hex");
-  return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
-}; */
 
 export const User = mongoose.model<UserDocument>("User", userSchema);
