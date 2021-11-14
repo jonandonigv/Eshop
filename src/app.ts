@@ -28,8 +28,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
     secret: 'somethingsecret',
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
     store: new MongoStore({
         mongoUrl: 'mongodb+srv://admin:aJcmP3DHuV97StHA@database.rx4es.mongodb.net/Eshop',
         collectionName: 'sessions'
