@@ -2,6 +2,14 @@ import nodemailer from 'nodemailer';
 import {User, UserDocument, AuthToken} from '../models/user';
 import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcryptjs';
+import Joi from 'joi';
+
+const jwt = require('jsonwebtoken');
+
+const schemaRegister = Joi.object({
+    email: Joi.string().min(6).max(255).required().email(),
+    password: Joi.string().min(6).max(32).required,
+});
 
 
 /* 
@@ -10,6 +18,8 @@ import bcrypt from 'bcryptjs';
 */
 export const postLogin = async (req: Request, res: Response, next: NextFunction) => {
     // TODO: Logs in the user into the app and returns a 200 status code.
+
+
     const user = await User.findOne({ email: req.body.email });
 
     if (!user) return res.status(400).json({ error: "User not found" });
@@ -21,14 +31,39 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
         error: null,
         data: 'Welcome'
     });
+
+    const token = jwt.sign({
+        email: user?.email,
+        id: user?._id
+    }, 'secret');
+
+    res.header('auth-token', token).json({
+        error: null,
+        data: {token}
+    });
 };
 
 /* 
     * Create a new local account.
     * @route POST /signup
 */
-export const postSignup = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const postSignup = async (req: Request, res: Response, next: NextFunction) => {
     // TODO: Create a new user. Can't exist two user with the same email or username.
+    const { error } = schemaRegister.validate(req.body);
+
+    if (error) {
+        return res.status(400).json({
+            error: error.details[0].message,
+        });
+    }
+
+    const isEmailExist = await User.findOne({email: req.body.email});
+    if (isEmailExist) {
+        return res.status(400).json({
+            error: 'Email already exists'
+        })
+    }
+
     const user = new User({
         email: req.body.email,
         password: req.body.password,
