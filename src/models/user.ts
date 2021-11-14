@@ -11,9 +11,11 @@ export type UserDocument = mongoose.Document & {
 
   profile: {
     name: string;
+    surname: string;
+    age: number;
     gender: string;
     location: string;
-    pricture: string;
+    picture: string;
   };
 };
 
@@ -32,6 +34,8 @@ const userSchema = new mongoose.Schema<UserDocument>(
 
     profile: {
       name: String,
+      surname: String,
+      age: Number,
       gender: String,
       location: String,
       picture: String
