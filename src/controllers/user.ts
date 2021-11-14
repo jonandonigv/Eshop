@@ -1,5 +1,4 @@
 import nodemailer from 'nodemailer';
-import passport from 'passport';
 import {User, UserDocument, AuthToken} from '../models/user';
 import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcryptjs';
@@ -9,7 +8,7 @@ import bcrypt from 'bcryptjs';
     * Sign in using email and password.
     * @route POST /login
 */
-export const postLogin = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const postLogin = async (req: Request, res: Response, next: NextFunction) => {
     // TODO: Logs in the user into the app and returns a 200 status code.
     const user = await User.findOne({ email: req.body.email });
 
@@ -60,7 +59,7 @@ export const postSignup = async (req: Request, res: Response, next: NextFunction
     * Get Profile
     * @route GET /account
 */
-export const getAccount = (req: Request, res: Response, next: NextFunction) => {
+/* export const getAccount = (req: Request, res: Response, next: NextFunction) => {
     // TODO: Get's the user account data.
     if (req.isAuthenticated()){
         User.findOne({_id: req.user}).then((user) => {
@@ -70,7 +69,7 @@ export const getAccount = (req: Request, res: Response, next: NextFunction) => {
             res.status(404).send({msg: "User not found"});
         });
     }
-};
+}; */
 
 /* 
     * Update profile information

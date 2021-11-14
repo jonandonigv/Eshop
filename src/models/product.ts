@@ -2,39 +2,42 @@ import mongoose, { mongo } from "mongoose";
 
 export type ProductDocument = mongoose.Document & {
     productName: string;
-    type: string;
-    rating: number;
-    seller: string;
-    price: number;
+    category: string;
+    subcategory: [{
+        type: string;
+        model: [{
+            type: string;
+            color: [{
+                name: string;
+                image: string;
+            }];
+            size: [{
+                val: number;
+                price: number;
+            }];
+        }];
+    }];
     description: string;
     picture: string;
-
-    productDetails: {
-        manufacturer: string;
-        manufacturesIdentification: string;
-        productDimesions: string;
-        manufacturerReference: string;
-        color: string;
-    };
 };
 
 const productSchema = new mongoose.Schema<ProductDocument>(
     {
         productName: String,
-        type: String,
-        rating: Number,
-        seller: String,
-        price: Number,
+        category: String,
+        subcategory: [{
+            type: String,
+            model: [{
+                name: String,
+                image: String
+            }],
+            size: [{
+                val: Number,
+                price: Number
+            }]
+        }],
         description: String,
-        picture: String,
-
-        productDetails: {
-            manufacturer: String,
-            manufacturesIdentification: String,
-            manufacturerReference: String,
-            productDimesions: String,
-            color: String
-        }
+        picture: String
     },
     { timestamps: true },
 );
