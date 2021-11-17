@@ -44,6 +44,14 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
 };
 
 /* 
+    * Logs out the user.
+    * @routes POST /logout
+*/
+export const postLogout = async (req: Request, res: Response, next: NextFunction) => {
+    // TODO: Logs out the user account destroying the current session and returns a success code if everything goes ok.
+}
+
+/* 
     * Create a new local account.
     * @route POST /signup
 */
@@ -89,17 +97,17 @@ export const postSignup = async (req: Request, res: Response, next: NextFunction
     * Get Profile
     * @route GET /account
 */
-/* export const getAccount = (req: Request, res: Response, next: NextFunction) => {
+export const getAccount = (req: Request, res: Response, next: NextFunction) => {
     // TODO: Get's the user account data.
-    if (req.isAuthenticated()){
+    /* if (req.isAuthenticated()){
         User.findOne({_id: req.user}).then((user) => {
             res.status(200).send(user);    
         }).catch(err => {
             console.log(err);
             res.status(404).send({msg: "User not found"});
         });
-    }
-}; */
+    } */
+};
 
 /* 
     * Update profile information
