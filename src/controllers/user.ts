@@ -4,6 +4,12 @@ import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcryptjs';
 import Joi from 'joi';
 
+/* declare module "express" {
+    export interface Request {
+        user: any
+    }
+} */
+
 const jwt = require('jsonwebtoken');
 
 const schemaRegister = Joi.object({
