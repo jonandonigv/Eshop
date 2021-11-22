@@ -8,6 +8,7 @@ import MongoStore from "connect-mongo";
 
 // Controllers (route handlers)
 import * as userController from './controllers/user';
+import * as productController from './controllers/product';
 
 // Create Express server
 const app = express();
@@ -47,5 +48,6 @@ app.post('/', (req, res, next) => {
 });
 app.post("/signup", userController.postSignup);
 app.post("/login", userController.postLogin);
+app.post("/createOneProduct", productController.postCreateOneProduct);
 
 export default app;

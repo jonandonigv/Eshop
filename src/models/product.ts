@@ -19,6 +19,7 @@ export type ProductDocument = mongoose.Document & {
     }];
     description: string;
     picture: string;
+    prize: string;
 };
 
 const productSchema = new mongoose.Schema<ProductDocument>(
@@ -37,7 +38,8 @@ const productSchema = new mongoose.Schema<ProductDocument>(
             }]
         }],
         description: String,
-        picture: String
+        picture: String,
+        prize: String,
     },
     { timestamps: true },
 );
