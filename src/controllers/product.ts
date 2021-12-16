@@ -40,8 +40,8 @@ export const postCreateOneProduct = async (req: Request, res: Response, next: Ne
         description: req.body.description,
         picture: req.body.picture,
     });
-
-    try{
+    console.log(product);
+    /* try{
         const savedProduct = await product.save();
         res.status(200).json({
             error: null,
@@ -49,7 +49,7 @@ export const postCreateOneProduct = async (req: Request, res: Response, next: Ne
         })
     } catch (error) {
         res.status(400).json({error});
-    }
+    } */
     
 
 };
