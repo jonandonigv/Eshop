@@ -5,6 +5,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 
 //LOCAL IMPORTS
+const authRoutes = require('./routes/auth');
 
 const app = express();
 
@@ -15,6 +16,8 @@ app.use(cors());
 app.use(morgan("dev"));
 
 // ROUTES
+
+app.use('/api/auth', authRoutes);
 
 app.listen(process.env.PORT, () => {
   mongoose
