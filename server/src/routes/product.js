@@ -26,3 +26,5 @@ router.get('/find/:id', async (req, res, next) => {});
 // GET ALL PRODUCTS
 
 router.get('/', async (req, res, next) => {});
+
+module.exports = router;
