@@ -16,4 +16,6 @@ router.post('/payment', (req, res, next) => {
     });
 });
 
+router.post('/demoPayment', (req,res,next) => {res.status(200).json('Payment made.')});
+
 module.exports = router;
