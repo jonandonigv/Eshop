@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 
 //LOCAL IMPORTS
 const authRoutes = require('./routes/auth');
+const productRoutes = require('./routes/product');
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(morgan("dev"));
 // ROUTES
 
 app.use('/api/auth', authRoutes);
+app.use('/api/products', productRoutes);
 
 app.listen(process.env.PORT, () => {
   mongoose
