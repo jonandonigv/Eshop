@@ -22,7 +22,13 @@ router.put('/:id', verifyTokenAndAuthorization, (req, res, next) => {
 });
 
 // DELETE
-router.delete('/:id', verifyTokenAndAuthorization, (req, res, next) => {});
+router.delete('/:id', verifyTokenAndAuthorization, (req, res, next) => {
+    try {
+        await User.findByIdAndDelete(req.params.id);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
 
 // GET USER
 
