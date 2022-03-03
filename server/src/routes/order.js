@@ -9,7 +9,7 @@ const router = require("express").Router();
 
 // CREATE
 
-router.post("/", verifyToken, (req, res, next) => {
+router.post("/", verifyToken, async (req, res, next) => {
   const newOrder = new Order(req.body);
 
   try {
@@ -22,7 +22,7 @@ router.post("/", verifyToken, (req, res, next) => {
 
 // UPDATE
 
-router.put("/:id", verifyTokenAndAdmin, (req, res, next) => {
+router.put("/:id", verifyTokenAndAdmin, async (req, res, next) => {
   try {
     const updateOrder = await Order.findByIdAndUpdate(
       req.params.id,
@@ -37,7 +37,7 @@ router.put("/:id", verifyTokenAndAdmin, (req, res, next) => {
 
 // DELETE
 
-router.delete("/:id", verifyTokenAndAdmin, (req, res, next) => {
+router.delete("/:id", verifyTokenAndAdmin, async (req, res, next) => {
   try {
     await Order.findByIdAndDelete(req.params.id);
     res.status(200).json("Order deleted");
@@ -48,7 +48,7 @@ router.delete("/:id", verifyTokenAndAdmin, (req, res, next) => {
 
 // GET USER ORDERS
 
-router.get("/find/:userId", verifyTokenAndAuthorization, (req, res, next) => {
+router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res, next) => {
   try {
     const orders = await Order.find({ userId: req.params.userId });
     res.status(200).json(orders);
@@ -59,7 +59,7 @@ router.get("/find/:userId", verifyTokenAndAuthorization, (req, res, next) => {
 
 // GET ALL
 
-router.get("/", verifyTokenAndAdmin, (req, res, next) => {
+router.get("/", verifyTokenAndAdmin, async (req, res, next) => {
   try {
     const orders = await Order.find();
     res.status(200).json(orders);
@@ -70,7 +70,7 @@ router.get("/", verifyTokenAndAdmin, (req, res, next) => {
 
 // GET MONTHLY INCOME
 
-router.get("/income", verifyTokenAndAdmin, (req, res, next) => {
+router.get("/income", verifyTokenAndAdmin, async (req, res, next) => {
   const date = new Date();
   const lastMonth = new Date(date.setMonth(lastMonth.getMonth() - 1));
   const previousMonth = new Date(new Date().setMonth(lastMonth.getMonth() - 1));
@@ -96,3 +96,5 @@ router.get("/income", verifyTokenAndAdmin, (req, res, next) => {
     res.status(500).json(error);
   }
 });
+
+module.exports = router;
