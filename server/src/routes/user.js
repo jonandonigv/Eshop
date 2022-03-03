@@ -8,7 +8,18 @@ const {
 const router = require("express").Router();
 
 // UPDATE
-router.put('/:id', verifyTokenAndAuthorization, (req, res, next) => {});
+router.put('/:id', verifyTokenAndAuthorization, (req, res, next) => {
+    if (req.body.password) {
+        req.body.password = CryptoJS.AES.encrypt(req.body.password, process.env.SECRET_KEY).toString();
+    }
+
+    try {
+        const updatedUser = await User.findByIdAndUpdate(req.params.id, {$set: req.body}, {new: true});
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
 
 // DELETE
 router.delete('/:id', verifyTokenAndAuthorization, (req, res, next) => {});
