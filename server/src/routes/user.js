@@ -32,12 +32,48 @@ router.delete('/:id', verifyTokenAndAuthorization, (req, res, next) => {
 
 // GET USER
 
-router.get('/find/:id', verifyTokenAndAdmin, (req, res, next) => {});
+router.get('/find/:id', verifyTokenAndAdmin, (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id);
+        const {password, ...other} = user._doc;
+        res.status(200).json(other);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
 
 // GET ALL USER
 
-router.get('/', verifyTokenAndAdmin, (req, res, next) => {});
+router.get('/', verifyTokenAndAdmin, (req, res, next) => {
+    const query = req.query.new;
+    try {
+        const users = query ? await User.find().sort({_id: -1}).limit(5) : await User.find();
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
 
 // GET USER STATS
 
-router.get('/stats', verifyTokenAndAdmin, (req, res, next) => {});
+router.get('/stats', verifyTokenAndAdmin, (req, res, next) => {
+    const date = new Date();
+    const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
+
+    try {
+        const data = await User.aggregate([
+            {$match: {createdAt: {$gte: lastYear}}},
+            {
+                $project: {
+                    month: {$month: "$createdAt"}
+                }
+            },
+            {$group: {
+                _id: "$month",
+                total: {$sum: 1},
+            }}
+        ]);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
