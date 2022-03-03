@@ -8,6 +8,9 @@ const dotenv = require("dotenv");
 const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/product');
 const cartRoutes = require('./routes/cart');
+const orderRoutes = require('./routes/order');
+const userRoutes = require('./routes/user');
+const stripeRoutes = require('./routes/stripe');
 
 const app = express();
 
@@ -22,6 +25,9 @@ app.use(morgan("dev"));
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
+app.use('/api/order', orderRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/payments', stripeRoutes);
 
 app.listen(process.env.PORT, () => {
   mongoose
