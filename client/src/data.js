@@ -1,10 +1,10 @@
 export const sliderItems = [
     {
       id: 1,
-      img: "https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      img: "https://i.ibb.co/DG69bQ4/1.png",
       title: "SUMMER SALE",
       desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
-      bg: "DCDCDC",
+      bg: "fcf1ed",
     },
     {
       id: 2,
