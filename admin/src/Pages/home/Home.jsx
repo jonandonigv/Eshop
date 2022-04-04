@@ -4,6 +4,8 @@ import Navbar from '../../Components/Navbar/Navbar';
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import Widget from '../../Components/Widget/Widget';
 import Featured from '../../Components/Featured/Featured';
+import Chart from '../../Components/Chart/Chart';
+import List from '../../Components/Table/Table';
 
 const Home = () => {
   return (
@@ -19,11 +21,11 @@ const Home = () => {
         </div>
         <div className="charts">
           <Featured />
-          {/* <Chart title="Last 6 Months (Revenue)" aspect={2 / 1} /> */}
+          <Chart title="Last 6 Months (Revenue)" aspect={2 / 1} />
         </div>
         <div className="listContainer">
           <div className="listTitle">Latest Transactions</div>
-          {/* <Table /> */}
+          <List />
         </div>
       </div>
     </div>
