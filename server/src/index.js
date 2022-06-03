@@ -31,9 +31,9 @@ app.use('/api/payments', stripeRoutes);
 
 app.listen(process.env.PORT, () => {
   mongoose
-    .connect(process.env.MONGODB)
+    .connect(process.env.MONGODB_LOCAL)
     .then((result) => {
-      console.log("[SERVER]: DB CONNECTION STABLISHED.");
+      console.log("[SERVER]: DB CONNECTION STABLISHED. " + process.env.MONGODB_LOCAL);
       console.log("[SERVER]: API RUNNING AT PORT: " + process.env.PORT);
     })
     .catch((err) => console.log(err));
